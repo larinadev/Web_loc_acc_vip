@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Lọc Acc LQ — BotLocFile</title>
+<style>
+:root{--bg:#0a0e1a;--s1:#111827;--s2:#1a2235;--bd:#1e2d45;--ac:#00d4ff;--ac2:#0080ff;--gr:#00e676;--yl:#ffd600;--rd:#ff3d00;--pu:#b388ff;--tx:#e8f0fe;--mu:#637a9f;--r:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-user-select:none;user-select:none}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.012) 2px,rgba(0,212,255,.012) 4px);pointer-events:none;z-index:9999}
+
+/* DEVTOOLS */
+#dblock{display:none;position:fixed;inset:0;background:#0a0e1a;z-index:99999;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center}
+#dblock h2{color:var(--rd);font-size:22px}#dblock p{color:var(--mu);font-size:14px}
+
+/* AUTH */
+#auth{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.acard{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:32px;width:100%;max-width:400px;position:relative;overflow:hidden}
+.acard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac2),var(--ac))}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.bico{width:36px;height:36px;background:linear-gradient(135deg,var(--ac2),var(--ac));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.bname{font-size:20px;font-weight:700}.bname span{color:var(--ac)}
+.atit{font-size:24px;font-weight:700;margin-bottom:4px}
+.asub{color:var(--mu);font-size:13px;margin-bottom:20px}
+.fld{margin-bottom:14px}
+.fld label{display:block;font-size:12px;color:var(--mu);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.fld input,.fld select{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:11px 13px;color:var(--tx);font-size:14px;outline:none;transition:.2s}
+.fld input:focus,.fld select:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,212,255,.1)}
+.fp{position:relative}.fp input{padding-right:42px}
+.eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mu);cursor:pointer;font-size:17px;padding:3px}
+.abtn{width:100%;padding:12px;border:none;border-radius:7px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--ac2),var(--ac));color:#000;transition:.2s;letter-spacing:.3px}
+.abtn:hover{opacity:.9;transform:translateY(-1px)}.abtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.alinks{display:flex;justify-content:space-between;margin-top:14px;font-size:13px}
+.alinks a{color:var(--ac);cursor:pointer}.alinks a:hover{text-decoration:underline}
+.emsg{border-radius:7px;padding:9px 13px;font-size:13px;margin-bottom:12px;display:none}
+.emsg.err{background:rgba(255,61,0,.12);border:1px solid rgba(255,61,0,.3);color:#ff6e4a}
+.emsg.ok{background:rgba(0,230,118,.12);border:1px solid rgba(0,230,118,.3);color:var(--gr)}
+
+/* APP */
+#app{display:none;flex-direction:column;min-height:100vh}
+.top{background:var(--s1);border-bottom:1px solid var(--bd);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px}
+.tl{display:flex;align-items:center;gap:10px}
+.tbrand{font-size:16px;font-weight:700;color:var(--ac);white-space:nowrap}
+.tabs{display:flex;gap:3px;background:var(--bg);border-radius:7px;padding:3px;overflow-x:auto}
+.tab{padding:5px 12px;border:none;background:none;color:var(--mu);border-radius:5px;cursor:pointer;font-size:12px;font-weight:600;transition:.2s;white-space:nowrap}
+.tab.on{background:var(--s2);color:var(--ac);border:1px solid var(--bd)}
+.tab:hover:not(.on){color:var(--tx)}
+.tr2{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.upill{display:flex;align-items:center;gap:7px;background:var(--s2);border:1px solid var(--bd);border-radius:16px;padding:4px 12px 4px 8px;font-size:12px}
+.ava{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--ac2),var(--pu));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.lout{background:none;border:1px solid var(--bd);border-radius:5px;padding:4px 10px;color:var(--mu);cursor:pointer;font-size:11px}
+.lout:hover{color:var(--rd);border-color:var(--rd)}
+
+.mc{flex:1;padding:16px;max-width:1400px;margin:0 auto;width:100%}
+.tc{display:none}.tc.on{display:block}
+
+/* KEY BAR */
+.kbar{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;gap:10px;font-size:12px}
+.kd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.kd.on{background:var(--gr);box-shadow:0 0 5px var(--gr)}.kd.off{background:var(--mu)}
+.ktm{margin-left:auto;font-weight:700;color:var(--ac);font-size:13px}
+
+/* FILTER PANEL */
+.fpan{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.ftit{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px;color:var(--tx)}
+.ftit .dot{width:3px;height:16px;background:var(--ac);border-radius:2px;flex-shrink:0}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.frow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+.fl{font-size:12px;color:var(--mu);font-weight:600;width:70px;flex-shrink:0}
+.finp{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--tx);font-size:13px;outline:none;flex:1;min-width:80px}
+.finp:focus{border-color:var(--ac)}
+.fsel{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:7px 10px;color:var(--tx);font-size:13px;outline:none}
+.fsel:focus{border-color:var(--ac)}
+.fsep{height:1px;background:var(--bd);margin:10px 0}
+.chk-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.chk-item{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:13px}
+.chk-item input[type=checkbox]{accent-color:var(--ac);width:14px;height:14px;cursor:pointer}
+
+/* UPLOAD */
+.upzone{border:2px dashed var(--bd);border-radius:9px;padding:24px;text-align:center;cursor:pointer;transition:.2s;background:var(--s2);position:relative;margin-bottom:10px}
+.upzone:hover,.upzone.drag{border-color:var(--ac);background:rgba(0,212,255,.05)}
+.upzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upico{font-size:30px;margin-bottom:8px}
+.uptxt{font-size:14px;font-weight:600;margin-bottom:4px}
+.upsub{font-size:12px;color:var(--mu)}
+.pbwrap{margin-top:10px;display:none}
+.pblbl{font-size:12px;color:var(--mu);margin-bottom:5px}
+.pbbar{height:6px;background:var(--s2);border-radius:3px;overflow:hidden}
+.pbfill{height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac));border-radius:3px;transition:width .3s;width:0%}
+
+/* DATA AREA */
+.data-area{width:100%;min-height:120px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:10px;color:var(--tx);font-size:12px;font-family:monospace;resize:vertical;outline:none;line-height:1.5}
+.data-area:focus{border-color:var(--ac)}
+
+/* ACTION BUTTONS */
+.abtnrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.actbtn{padding:9px 16px;border:none;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.actbtn:hover{opacity:.85;transform:translateY(-1px)}
+.actbtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-run{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#000}
+.btn-txt{background:rgba(0,230,118,.15);color:var(--gr);border:1px solid rgba(0,230,118,.3)}
+.btn-up{background:rgba(255,214,0,.15);color:var(--yl);border:1px solid rgba(255,214,0,.3)}
+.btn-uc{background:rgba(179,136,255,.15);color:var(--pu);border:1px solid rgba(179,136,255,.3)}
+.btn-clr{background:rgba(255,61,0,.12);color:var(--rd);border:1px solid rgba(255,61,0,.25)}
+.btn-paste{background:rgba(0,212,255,.1);color:var(--ac);border:1px solid rgba(0,212,255,.25)}
+.btn-load{background:rgba(0,128,255,.12);color:#66b2ff;border:1px solid rgba(0,128,255,.25)}
+
+/* RESULTS */
+.results-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-top:14px}
+.res-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.res-title{font-size:14px;font-weight:700}
+.res-cnt{font-size:12px;color:var(--mu)}
+.res-area{width:100%;min-height:100px;max-height:300px;overflow-y:auto;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:10px;color:#9bb7d4;font-size:12px;font-family:monospace;line-height:1.6;resize:vertical;outline:none}
+
+/* LOG */
+.log-box{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-top:10px;max-height:180px;overflow-y:auto}
+.log-entry{font-size:12px;padding:4px 0;border-bottom:1px solid rgba(30,45,69,.5);display:flex;gap:8px}
+.log-time{color:var(--mu);flex-shrink:0;font-family:monospace}
+.log-ok{color:var(--gr)}.log-warn{color:var(--yl)}.log-err{color:var(--rd)}.log-info{color:var(--ac)}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.sc{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:16px;position:relative;overflow:hidden;transition:.2s}
+.sc:hover{border-color:rgba(0,212,255,.3);transform:translateY(-1px)}
+.slbl{font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:var(--mu);margin-bottom:8px;font-weight:700}
+.sval{font-size:28px;font-weight:800;line-height:1;margin-bottom:4px}
+.sico{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:30px;opacity:.12}
+.htbl{width:100%;border-collapse:collapse;font-size:12px}
+.htbl th{background:var(--s2);padding:8px 12px;text-align:left;color:var(--mu);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)}
+.htbl td{padding:8px 12px;border-bottom:1px solid var(--bd)}
+.htbl tr:hover td{background:var(--s2)}
+
+/* SHOP */
+.shopg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:18px}
+.kcard{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:20px;position:relative;overflow:hidden}
+.kcard.dong::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#795548,#a1887f)}
+.kcard.bac::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#90a4ae,#eceff1)}
+.kcard.vang::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ffd600,#fff176)}
+.ktyp{font-size:13px;font-weight:700;margin-bottom:7px}
+.kdur{font-size:26px;font-weight:800;margin-bottom:5px}
+.kdur.dong{color:#bcaaa4}.kdur.bac{color:#cfd8dc}.kdur.vang{color:var(--yl)}
+.kdesc{font-size:12px;color:var(--mu);margin-bottom:14px}
+.kpri{font-size:16px;font-weight:700;color:var(--gr);margin-bottom:12px}
+.kbuy{width:100%;padding:9px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;border:none}
+.kbuy.dong{background:rgba(121,85,72,.3);color:#bcaaa4;border:1px solid rgba(121,85,72,.5)!important}
+.kbuy.bac{background:rgba(144,164,174,.2);color:#cfd8dc;border:1px solid rgba(144,164,174,.4)!important}
+.kbuy.vang{background:rgba(255,214,0,.15);color:var(--yl);border:1px solid rgba(255,214,0,.3)!important}
+.kbuy:hover{opacity:.75}
+.actform{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.actrow{display:flex;gap:8px;margin-top:10px}
+.actrow input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:11px 13px;color:var(--tx);font-size:13px;outline:none}
+.actrow input:focus{border-color:var(--ac)}
+.actrow button{padding:11px 18px;background:linear-gradient(135deg,var(--ac2),var(--ac));border:none;border-radius:7px;color:#000;font-weight:700;cursor:pointer;font-size:13px;white-space:nowrap}
+.invbox{background:var(--s2);border:1px solid var(--bd);border-radius:9px;padding:14px}
+.invrow{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bd)}
+.invrow:last-child{border-bottom:none}
+.usebtn{padding:5px 12px;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer}
+.usebtn.dong{background:rgba(121,85,72,.3);color:#bcaaa4}
+.usebtn.bac{background:rgba(144,164,174,.2);color:#cfd8dc}
+.usebtn.vang{background:rgba(255,214,0,.15);color:var(--yl)}
+
+/* ADMIN */
+.atbl{width:100%;border-collapse:collapse;font-size:12px}
+.atbl th{background:var(--s2);padding:8px 12px;text-align:left;color:var(--mu);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)}
+.atbl td{padding:8px 12px;border-bottom:1px solid var(--bd)}
+.atbl tr:hover td{background:rgba(255,255,255,.02)}
+.aacts{display:flex;gap:5px}
+.abx{padding:4px 10px;border:none;border-radius:4px;font-size:11px;font-weight:700;cursor:pointer}
+.abx.g{background:rgba(0,230,118,.15);color:var(--gr)}
+.abx.r{background:rgba(255,61,0,.15);color:var(--rd)}
+.abx.b{background:rgba(0,128,255,.15);color:#66b2ff}
+.ckform{display:grid;grid-template-columns:1fr 1fr 130px auto;gap:8px;margin-bottom:14px;align-items:end}
+.ckform select,.ckform input{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:9px 11px;color:var(--tx);font-size:13px;outline:none}
+.kltbl{width:100%;border-collapse:collapse;font-size:12px}
+.kltbl th{background:var(--s2);padding:8px 12px;text-align:left;color:var(--mu);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)}
+.kltbl td{padding:8px 12px;border-bottom:1px solid var(--bd);font-family:monospace;font-size:11px}
+
+/* BADGE */
+.bdg{display:inline-flex;align-items:center;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700}
+.bdg.bl{background:rgba(0,128,255,.2);color:#66b2ff}
+.bdg.gr{background:rgba(0,230,118,.15);color:var(--gr)}
+.bdg.mu{background:rgba(99,122,159,.15);color:var(--mu)}
+
+/* TOAST */
+.twrap{position:fixed;top:14px;right:14px;z-index:9000;display:flex;flex-direction:column;gap:6px}
+.toast{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:10px 14px;min-width:220px;max-width:320px;font-size:13px;display:flex;align-items:center;gap:8px;animation:tin .2s ease;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.toast.success{border-color:rgba(0,230,118,.4)}.toast.error{border-color:rgba(255,61,0,.4)}.toast.info{border-color:rgba(0,212,255,.4)}
+@keyframes tin{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* MODAL */
+.mover{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:5000;display:none;align-items:center;justify-content:center;padding:16px}
+.mover.open{display:flex}
+.modal{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:24px;max-width:400px;width:100%}
+.modal h3{font-size:16px;font-weight:700;margin-bottom:7px}
+.modal p{font-size:13px;color:var(--mu);margin-bottom:16px;line-height:1.5}
+.mbtns{display:flex;gap:8px;justify-content:flex-end}
+.mcx{background:var(--s2);color:var(--mu);border:1px solid var(--bd);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.mok2{background:linear-gradient(135deg,var(--ac2),var(--ac));color:#000;border:none;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer}
+
+/* PASTE MODAL */
+.paste-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:6000;align-items:center;justify-content:center;padding:20px}
+.paste-modal.open{display:flex}
+.paste-inner{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:20px;width:100%;max-width:560px}
+.paste-inner h3{margin-bottom:12px;font-size:15px;font-weight:700}
+.paste-ta{width:100%;height:200px;background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:10px;color:var(--tx);font-size:12px;font-family:monospace;resize:vertical;outline:none}
+.paste-ta:focus{border-color:var(--ac)}
+
+/* DB STATUS */
+.dbst{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mu)}
+.dbd{width:6px;height:6px;border-radius:50%;background:var(--mu)}
+.dbd.on{background:var(--gr);box-shadow:0 0 4px var(--gr)}
+
+/* WATERMARK */
+.wm{position:fixed;bottom:6px;right:10px;font-size:9px;color:rgba(0,212,255,.06);pointer-events:none;z-index:1;font-family:monospace;letter-spacing:2px}
+
+/* SSS FILTER */
+.sss-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.sss-chk{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:var(--mu)}
+.sss-chk input{accent-color:var(--ac)}
+
+@media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}.ckform{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.sg{grid-template-columns:1fr}.mc{padding:10px}.fgrid{grid-template-columns:1fr 1fr}.tabs{gap:2px}.tab{padding:4px 8px;font-size:11px}}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--s1)}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- DEVTOOLS BLOCK -->
+<div id="dblock">
+  <div style="font-size:56px">🚫</div>
+  <h2>Truy cập bị từ chối</h2>
+  <p>Công cụ phát triển đã bị vô hiệu hóa trên trang này</p>
+</div>
+<div class="wm" id="wmt">BLF-PROTECTED</div>
+
+<!-- ══ AUTH ══ -->
+<div id="auth">
+  <div class="brand" style="margin-bottom:20px"><div class="bico">🗂️</div><div class="bname">Botloc<span>File</span></div></div>
+
+  <!-- LOGIN -->
+  <div id="lcard" class="acard">
+    <div class="atit">Đăng nhập</div><div class="asub">Chào mừng trở lại 👋</div>
+    <div id="le" class="emsg err"></div>
+    <div class="fld"><label>Tên đăng nhập / Email</label><input id="lu" type="text" placeholder="Nhập tên đăng nhập" autocomplete="username"></div>
+    <div class="fld fp"><label>Mật khẩu</label><input id="lp" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password"><button class="eye" onclick="tp('lp',this)">👁</button></div>
+    <button class="abtn" id="lbtn" onclick="doLogin()">ĐĂNG NHẬP</button>
+    <div class="alinks"><a onclick="sw('reg')">Đăng ký</a><a onclick="sw('fgt')">Quên mật khẩu?</a></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="rcard" class="acard" style="display:none">
+    <div class="atit">Đăng ký</div><div class="asub">Tạo tài khoản mới</div>
+    <div id="re" class="emsg err"></div><div id="ro" class="emsg ok"></div>
+    <div class="fld"><label>Tên đăng nhập</label><input id="ru" type="text" placeholder="Nhập tên đăng nhập"></div>
+    <div class="fld"><label>Email</label><input id="rex" type="email" placeholder="Nhập email"></div>
+    <div class="fld fp"><label>Mật khẩu</label><input id="rp" type="password" placeholder="Nhập mật khẩu"><button class="eye" onclick="tp('rp',this)">👁</button></div>
+    <div class="fld fp"><label>Xác nhận mật khẩu</label><input id="rp2" type="password" placeholder="Nhập lại mật khẩu"><button class="eye" onclick="tp('rp2',this)">👁</button></div>
+    <button class="abtn" id="rbtn" onclick="doReg()">ĐĂNG KÝ</button>
+    <div class="alinks" style="justify-content:center"><a onclick="sw('login')">Đã có tài khoản? Đăng nhập</a></div>
+  </div>
+
+  <!-- FORGOT -->
+  <div id="fcard" class="acard" style="display:none">
+    <div id="fs1">
+      <div class="atit">Quên mật khẩu</div><div class="asub">Nhập tên đăng nhập hoặc email để nhận mã qua bot Telegram.</div>
+      <div id="fe" class="emsg err"></div><div id="fo" class="emsg ok"></div>
+      <div class="fld"><label>Tên đăng nhập hoặc Email</label><input id="fu" type="text" placeholder="Nhập tên đăng nhập hoặc email"></div>
+      <button class="abtn" onclick="doFgt1()">GỬI MÃ XÁC NHẬN</button>
+    </div>
+    <div id="fs2" style="display:none">
+      <div class="atit">Nhập mã xác nhận</div><div class="asub">Nhập mã 6 số từ bot Telegram + mật khẩu mới.</div>
+      <div id="fe2" class="emsg err"></div>
+      <div class="fld"><label>Mã 6 số</label><input id="rc" type="text" maxlength="6" placeholder="Nhập mã 6 số" inputmode="numeric"></div>
+      <div class="fld fp"><label>Mật khẩu mới</label><input id="rnp" type="password" placeholder="Nhập mật khẩu mới"><button class="eye" onclick="tp('rnp',this)">👁</button></div>
+      <button class="abtn" onclick="doFgt2()">ĐẶT LẠI MẬT KHẨU</button>
+    </div>
+    <div class="alinks" style="justify-content:center;margin-top:14px"><a onclick="sw('login')">Quay lại đăng nhập</a></div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div class="top">
+    <div class="tl">
+      <div class="tbrand">🗂️ BotLocFile</div>
+      <div class="tabs">
+        <button class="tab on" onclick="stab('filter',this)">📁 Lọc File</button>
+        <button class="tab" onclick="stab('shop',this)">🔑 Key</button>
+        <button class="tab" onclick="stab('stats',this)">📊 Thống kê</button>
+        <button class="tab adm" onclick="stab('admin',this)" style="display:none">⚙️ Admin</button>
+      </div>
+    </div>
+    <div class="tr2">
+      <div class="dbst"><div class="dbd" id="dbd"></div><span id="dbt">...</span></div>
+      <div class="upill"><div class="ava" id="nav-av">U</div><span id="nav-un">User</span></div>
+      <button class="lout" onclick="doLogout()">Thoát</button>
+    </div>
+  </div>
+
+  <div class="mc">
+
+    <!-- ── FILTER TAB ── -->
+    <div class="tc on" id="tab-filter">
+      <div class="kbar"><div class="kd off" id="kd"></div><span id="kst">Chưa kích hoạt key</span><span class="ktm" id="ktm" style="display:none"></span></div>
+
+      <!-- BỘ LỌC -->
+      <div class="fpan">
+        <div class="ftit"><div class="dot"></div>Bộ Lọc</div>
+
+        <!-- ROW 1: Tướng -->
+        <div class="frow"><span class="fl">🗡️ Tướng</span><input class="finp" id="f-tuong" placeholder="Tên tướng (quick search)"></div>
+        <!-- ROW 2: Skin name -->
+        <div class="frow"><span class="fl">🎨 Tên Skin</span><input class="finp" id="f-skin-name" placeholder="Tên skin cần tìm"></div>
+        <div class="fsep"></div>
+        <!-- ROW 3: Số liệu -->
+        <div class="frow">
+          <span class="fl">Số Skin</span><input class="finp" id="f-skin" placeholder="VD: 100+ / 50-200 / =20" style="max-width:160px">
+          <span class="fl" style="margin-left:8px">Level</span><input class="finp" id="f-level" placeholder="VD: 50+" style="max-width:140px">
+          <span class="fl" style="margin-left:8px">Sò</span><input class="finp" id="f-so" placeholder="VD: 10000+" style="max-width:140px">
+        </div>
+        <div class="frow">
+          <span class="fl">QH</span><input class="finp" id="f-qh" placeholder="VD: 500+" style="max-width:140px">
+          <span class="fl" style="margin-left:8px">SS</span><input class="finp" id="f-ss" placeholder="VD: 1+" style="max-width:140px">
+          <span class="fl" style="margin-left:8px">Lần nạp</span><input class="finp" id="f-nap" placeholder="VD: 100+" style="max-width:140px">
+        </div>
+        <div class="fsep"></div>
+        <!-- SSS -->
+        <div class="frow">
+          <span class="fl">💎 SSS</span><input class="finp" id="f-sss" placeholder="VD: 1+" style="max-width:140px">
+        </div>
+        <div style="margin:6px 0 4px 78px;font-size:12px;color:var(--mu)">Lọc SSS rác (bỏ qua):</div>
+        <div class="sss-opts" style="margin-left:78px">
+          <label class="sss-chk"><input type="checkbox" id="sss-tel"> TelAnnas Thần sứ F.E.E-X1</label>
+          <label class="sss-chk"><input type="checkbox" id="sss-bij"> Bijan Kình thiên Long Kỵ</label>
+          <label class="sss-chk"><input type="checkbox" id="sss-tri"> Triệu Vân Minh Chung Long Đế</label>
+          <label class="sss-chk"><input type="checkbox" id="sss-vio"> Violet Vọng nguyệt Long Cơ</label>
+        </div>
+        <!-- ANIME -->
+        <div class="frow" style="margin-top:8px"><span class="fl">🌸 ANIME</span><input class="finp" id="f-anime" placeholder="VD: 1+" style="max-width:140px"></div>
+        <div class="fsep"></div>
+        <!-- Dropdowns -->
+        <div class="frow">
+          <span class="fl">🌍 Quốc gia</span>
+          <select class="fsel" id="f-country"><option value="">-- Tất cả --</option><option>VN</option><option>US</option><option>TH</option><option>PH</option><option>ID</option><option>SG</option><option>MY</option><option>TW</option></select>
+          <span class="fl" style="margin-left:10px">📘 Facebook</span>
+          <select class="fsel" id="f-fb"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+        </div>
+        <div class="frow">
+          <span class="fl">🏆 Rank</span>
+          <select class="fsel" id="f-rank">
+            <option value="">-- Tất cả --</option>
+            <option>Đồng</option><option>Bạc</option><option>Vàng</option><option>Bạch Kim</option>
+            <option>Kim Cương</option><option>Tinh Anh</option><option>Cao Thủ</option>
+            <option>Đại Cao Thủ</option><option>Chiến Tướng</option><option>Chiến Thần</option>
+          </select>
+          <span class="fl" style="margin-left:10px">Sao rank</span>
+          <input class="finp" id="f-sao" placeholder="VD: 3-7 / 100+" style="max-width:120px">
+        </div>
+        <div class="frow">
+          <span class="fl">📋 Tình Trạng</span>
+          <select class="fsel" id="f-tinhtrang">
+            <option value="">-- Tất cả --</option>
+            <option>Acc Trắng Lỗi Pass</option><option>Acc Full</option>
+            <option>Acc Dính Mỗi Số</option><option>Acc Dính Email</option>
+            <option>Acc Trắng Thông Tin</option><option>Acc Dính FB</option>
+          </select>
+        </div>
+        <div class="frow">
+          <span class="fl">🚫 Ban</span>
+          <select class="fsel" id="f-ban"><option value="">-- Tất cả --</option><option value="no">Không bị ban</option><option value="yes">Bị ban</option><option value="ngay">Ban ngày</option><option value="thang">Ban tháng</option><option value="nam">Ban năm</option></select>
+          <span class="fl" style="margin-left:10px">📧 Email</span>
+          <select class="fsel" id="f-email"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+        </div>
+        <div class="frow">
+          <span class="fl">🪪 CMND</span>
+          <select class="fsel" id="f-cmnd"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+          <span class="fl" style="margin-left:10px">🔐 Authen</span>
+          <select class="fsel" id="f-authen"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+          <span class="fl" style="margin-left:10px">📱 SĐT</span>
+          <select class="fsel" id="f-sdt"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+        </div>
+        <div class="frow" style="margin-top:8px">
+          <button class="actbtn btn-clr" onclick="resetFilters()" style="font-size:12px;padding:7px 14px">↺ Reset bộ lọc</button>
+        </div>
+      </div>
+
+      <!-- DỮ LIỆU -->
+      <div class="fpan">
+        <div class="ftit"><div class="dot"></div>Dữ Liệu</div>
+        <div class="upzone" id="upz">
+          <input type="file" id="fi" accept=".txt" onchange="onFile(event)">
+          <div class="upico">📄</div>
+          <div class="uptxt" id="uplbl">Kéo thả hoặc nhấn để Load file .TXT</div>
+          <div class="upsub">Hỗ trợ file lớn</div>
+        </div>
+        <div class="pbwrap" id="pbw"><div class="pblbl" id="pbl">Đang xử lý...</div><div class="pbbar"><div class="pbfill" id="pbf"></div></div></div>
+        <div class="abtnrow">
+          <button class="actbtn btn-load" onclick="document.getElementById('fi').click()">📂 Load file</button>
+          <button class="actbtn btn-paste" onclick="openPaste()">📋 Paste data</button>
+          <button class="actbtn btn-clr" onclick="clearAll()">🗑️ Reset</button>
+        </div>
+        <div style="font-size:12px;color:var(--mu);margin-bottom:6px">Input — <span id="in-cnt">0</span> dòng</div>
+        <textarea class="data-area" id="input-area" placeholder="Input (loaded/pasted) — one record per line" readonly></textarea>
+        <div class="abtnrow" style="margin-top:10px">
+          <button class="actbtn btn-run" onclick="runFilters()">▶ Run filters</button>
+          <button class="actbtn btn-txt" onclick="exportAs('txt')">📄 Export TXT</button>
+          <button class="actbtn btn-up" onclick="exportAs('upipe')">Export User|Pass</button>
+          <button class="actbtn btn-uc" onclick="exportAs('ucolon')">Export User:Pass</button>
+          <button class="actbtn btn-clr" onclick="clearOut()">✖ Clear output</button>
+        </div>
+      </div>
+
+      <!-- KẾT QUẢ -->
+      <div class="results-box" id="res-box" style="display:none">
+        <div class="res-hd">
+          <div><div class="res-title" id="res-tit">Kết Quả</div><div class="res-cnt" id="res-cnt"></div></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="actbtn btn-txt" onclick="exportAs('txt')" style="font-size:12px;padding:7px 12px">📄 TXT</button>
+            <button class="actbtn btn-up" onclick="exportAs('upipe')" style="font-size:12px;padding:7px 12px">User|Pass</button>
+            <button class="actbtn btn-uc" onclick="exportAs('ucolon')" style="font-size:12px;padding:7px 12px">User:Pass</button>
+          </div>
+        </div>
+        <textarea class="res-area" id="res-area" readonly></textarea>
+      </div>
+
+      <!-- LOG -->
+      <div class="fpan" style="margin-top:10px">
+        <div class="ftit"><div class="dot"></div>Log</div>
+        <div class="log-box" id="log-box"><div style="font-size:12px;color:var(--mu)">Chưa có log</div></div>
+      </div>
+    </div>
+
+    <!-- ── SHOP TAB ── -->
+    <div class="tc" id="tab-shop">
+      <div style="margin-bottom:16px"><div style="font-size:20px;font-weight:800;margin-bottom:4px">🔑 Mua Key</div><div style="color:var(--mu);font-size:13px">Kích hoạt key để dùng không giới hạn</div></div>
+      <div class="actform">
+        <div class="ftit"><div class="dot"></div>Kích Hoạt Key</div>
+        <div style="font-size:12px;color:var(--mu)">Nhập mã key để thêm vào kho</div>
+        <div class="actrow"><input id="ki" type="text" placeholder="VD: DONG-XXXX-XXXX"><button onclick="actKey()">✅ Kích hoạt</button></div>
+        <div id="amsg" style="margin-top:8px;font-size:13px"></div>
+      </div>
+      <div class="invbox" style="margin-bottom:16px">
+        <div class="ftit" style="margin-bottom:10px"><div class="dot"></div>Kho Key</div>
+        <div class="invrow"><span>🟤 Key Đồng (+1h)</span><div style="display:flex;align-items:center;gap:8px"><b id="inv-d">0</b><button class="usebtn dong" onclick="uk('dong')">Dùng</button></div></div>
+        <div class="invrow"><span>⚪ Key Bạc (+24h)</span><div style="display:flex;align-items:center;gap:8px"><b id="inv-b">0</b><button class="usebtn bac" onclick="uk('bac')">Dùng</button></div></div>
+        <div class="invrow"><span>🟡 Key Vàng (+168h)</span><div style="display:flex;align-items:center;gap:8px"><b id="inv-v">0</b><button class="usebtn vang" onclick="uk('vang')">Dùng</button></div></div>
+        <div id="kinf" style="margin-top:10px;font-size:12px;color:var(--mu)"></div>
+      </div>
+      <div class="ftit" style="margin-bottom:14px"><div class="dot"></div>Các Loại Key</div>
+      <div class="shopg">
+        <div class="kcard dong"><div class="ktyp">🟤 Key Đồng</div><div class="kdur dong">+1 Giờ</div><div class="kdesc">Dùng thử hoặc xử lý nhanh</div><div class="kpri">Liên hệ admin</div><button class="kbuy dong" onclick="ctA('đồng')">Liên hệ mua</button></div>
+        <div class="kcard bac"><div class="ktyp">⚪ Key Bạc</div><div class="kdur bac">+24 Giờ</div><div class="kdesc">Sử dụng cả ngày, xử lý nhiều file</div><div class="kpri">Liên hệ admin</div><button class="kbuy bac" onclick="ctA('bạc')">Liên hệ mua</button></div>
+        <div class="kcard vang"><div class="ktyp">🟡 Key Vàng</div><div class="kdur vang">+1 Tuần</div><div class="kdesc">Tốt nhất cho người dùng thường xuyên</div><div class="kpri">Liên hệ admin</div><button class="kbuy vang" onclick="ctA('vàng')">Liên hệ mua</button></div>
+      </div>
+    </div>
+
+    <!-- ── STATS TAB ── -->
+    <div class="tc" id="tab-stats">
+      <div style="margin-bottom:16px"><div style="font-size:20px;font-weight:800;margin-bottom:4px">📊 Thống Kê</div><div style="color:var(--mu);font-size:13px">Lịch sử sử dụng</div></div>
+      <div class="sg">
+        <div class="sc"><div class="slbl">Lần Upload</div><div class="sval cyan" id="stu">0</div><div class="sico">📁</div></div>
+        <div class="sc"><div class="slbl">Lần Lọc</div><div class="sval" style="color:var(--gr)" id="std">0</div><div class="sico">🔍</div></div>
+        <div class="sc"><div class="slbl">Acc Đã Xử Lý</div><div class="sval" style="color:var(--yl)" id="sta">0</div><div class="sico">👤</div></div>
+        <div class="sc"><div class="slbl">MB Đã Upload</div><div class="sval" style="color:var(--pu)" id="stm">0</div><div class="sico">💾</div></div>
+      </div>
+      <div class="fpan">
+        <div class="ftit"><div class="dot"></div>Lịch Sử Lọc</div>
+        <table class="htbl"><thead><tr><th>Thời gian</th><th>Bộ lọc</th><th>Kết quả</th><th>Export</th></tr></thead>
+        <tbody id="hbody"><tr><td colspan="4" style="text-align:center;color:var(--mu);padding:20px">Chưa có lịch sử</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- ── ADMIN TAB ── -->
+    <div class="tc" id="tab-admin">
+      <div style="margin-bottom:16px"><div style="font-size:20px;font-weight:800;margin-bottom:4px">⚙️ Admin Panel</div></div>
+      <div class="sg" style="margin-bottom:16px">
+        <div class="sc"><div class="slbl">Tổng User</div><div class="sval cyan" id="au">0</div><div class="sico">👥</div></div>
+        <div class="sc"><div class="slbl">Đang Có Key</div><div class="sval" style="color:var(--gr)" id="ak">0</div><div class="sico">🔑</div></div>
+        <div class="sc"><div class="slbl">Key Đã Tạo</div><div class="sval" style="color:var(--yl)" id="aak">0</div><div class="sico">🗝️</div></div>
+        <div class="sc"><div class="slbl">Chưa Dùng</div><div class="sval" style="color:var(--pu)" id="auk">0</div><div class="sico">📦</div></div>
+      </div>
+      <div class="fpan">
+        <div class="ftit" style="margin-bottom:12px"><div class="dot"></div>Tạo Key Mới</div>
+        <div class="ckform">
+          <div><label style="font-size:11px;color:var(--mu);display:block;margin-bottom:4px">Loại key</label><select id="akt"><option value="dong">🟤 Đồng (+1h)</option><option value="bac">⚪ Bạc (+24h)</option><option value="vang">🟡 Vàng (+168h)</option></select></div>
+          <div><label style="font-size:11px;color:var(--mu);display:block;margin-bottom:4px">Số lượng</label><input id="akq" type="number" value="1" min="1" max="100"></div>
+          <div><label style="font-size:11px;color:var(--mu);display:block;margin-bottom:4px">Dành cho user</label><input id="aku" type="text" placeholder="(trống = tự do)"></div>
+          <button onclick="admCK()" style="padding:9px 14px;background:linear-gradient(135deg,var(--ac2),var(--ac));border:none;border-radius:7px;color:#000;font-weight:700;cursor:pointer;font-size:12px;align-self:end">Tạo Key</button>
+        </div>
+        <div id="ckeys"></div>
+      </div>
+      <div class="fpan">
+        <div class="ftit" style="margin-bottom:12px"><div class="dot"></div>Danh Sách Key</div>
+        <table class="kltbl"><thead><tr><th>Mã Key</th><th>Loại</th><th>Trạng thái</th><th>Dành cho</th><th>Hành động</th></tr></thead><tbody id="klb"></tbody></table>
+      </div>
+      <div class="fpan">
+        <div class="ftit" style="margin-bottom:12px"><div class="dot"></div>Người Dùng</div>
+        <table class="atbl"><thead><tr><th>Username</th><th>Email</th><th>Ngày ĐK</th><th>Key</th><th>Hành động</th></tr></thead><tbody id="ulb"></tbody></table>
+      </div>
+    </div>
+
+  </div><!-- mc -->
+</div><!-- app -->
+
+<!-- PASTE MODAL -->
+<div class="paste-modal" id="paste-modal">
+  <div class="paste-inner">
+    <h3>📋 Paste data</h3>
+    <textarea class="paste-ta" id="paste-ta" placeholder="Dán dữ liệu vào đây — one record per line"></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">
+      <button class="mcx" onclick="closePaste()">Huỷ</button>
+      <button class="mok2" onclick="doPaste()">Done ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="twrap" id="tw"></div>
+
+<!-- MODAL -->
+<div class="mover" id="mv">
+  <div class="modal">
+    <h3 id="mtt">Xác nhận</h3><p id="mbd"></p>
+    <div class="mbtns"><button class="mcx" onclick="cMod()">Huỷ</button><button class="mok2" id="mok">Xác nhận</button></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// ANTI-DEVTOOLS + ANTI-COPY
+// ═══════════════════════════════════════════════
+(function(){
+  const bl=document.getElementById('dblock');let op=false;
+  // Chỉ block DevTools trên Desktop, bỏ qua mobile/tablet
+  const isMobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if(!isMobile){
+    function chk(){
+      // Dùng threshold lớn hơn (200px) tránh nhầm thanh bookmark/extension
+      const wDiff=window.outerWidth-window.innerWidth;
+      const hDiff=window.outerHeight-window.innerHeight;
+      // Chỉ block khi diff RẤT lớn (DevTools docked) và không phải mobile
+      const t=(wDiff>200)||(hDiff>200&&hDiff<window.outerHeight*0.9);
+      if(t&&!op){op=true;bl.style.display='flex';document.body.style.overflow='hidden'}
+      else if(!t&&op){op=false;bl.style.display='none';document.body.style.overflow=''}}
+    setInterval(chk,1000);
+  }
+  document.addEventListener('keydown',e=>{if(e.keyCode===123||(e.ctrlKey&&e.shiftKey&&[73,74,67].includes(e.keyCode))||(e.ctrlKey&&[85].includes(e.keyCode))){e.preventDefault();return false}});
+  document.addEventListener('contextmenu',e=>e.preventDefault());
+  document.addEventListener('copy',e=>{const s=window.getSelection().toString();if(s.length>0){e.clipboardData.setData('text/plain',s+'\n— BotLocFile Protected ©');e.preventDefault()}});
+  document.addEventListener('dragstart',e=>e.preventDefault());
+})();
+
+// ═══════════════════════════════════════════════
+// LS DB
+// ═══════════════════════════════════════════════
+const LS={g(k){try{return JSON.parse(localStorage.getItem('blf2_'+k))}catch{return null}},s(k,v){localStorage.setItem('blf2_'+k,JSON.stringify(v))},d(k){localStorage.removeItem('blf2_'+k)}};
+function initDB(){
+  if(!LS.g('users'))LS.s('users',[{username:'Admin',email:'admin@botlocfile.local',password:'12345',is_admin:true,created_at:Date.now(),key_inventory:{dong:0,bac:0,vang:0},key_expiry:null,history:[],stats:{uploads:0,downloads:0,totalAcc:0,totalMb:0}}]);
+  if(!LS.g('keys'))LS.s('keys',[]);
+  if(!LS.g('rcodes'))LS.s('rcodes',{});
+}
+initDB();
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let CU=null,RL=[],PL=[],FR=[],mcb=null;
+
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+function sw(m){
+  document.getElementById('lcard').style.display='none';
+  document.getElementById('rcard').style.display='none';
+  document.getElementById('fcard').style.display='none';
+  if(m==='login')document.getElementById('lcard').style.display='';
+  else if(m==='reg')document.getElementById('rcard').style.display='';
+  else if(m==='fgt'){document.getElementById('fcard').style.display='';document.getElementById('fs1').style.display='';document.getElementById('fs2').style.display='none'}
+  ['le','re','ro','fe','fo','fe2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none'});
+}
+function tp(id,btn){const e=document.getElementById(id);e.type=e.type==='password'?'text':'password';btn.textContent=e.type==='password'?'👁':'🙈'}
+function showE(id,msg,t='err'){const e=document.getElementById(id);if(!e)return;e.textContent=msg;e.className='emsg '+(t==='ok'?'ok':'err');e.style.display='block'}
+
+function doLogin(){
+  const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value;
+  document.getElementById('le').style.display='none';
+  if(!u||!p){showE('le','Vui lòng nhập đầy đủ thông tin');return}
+  const users=LS.g('users')||[];
+  const user=users.find(x=>(x.username===u||x.email===u)&&x.password===p);
+  if(!user){showE('le','Tên đăng nhập hoặc mật khẩu không đúng');return}
+  CU=JSON.parse(JSON.stringify(user));LS.s('sess',user.username);loadApp();
+}
+
+function doReg(){
+  const u=document.getElementById('ru').value.trim(),e=document.getElementById('rex').value.trim(),
+        p=document.getElementById('rp').value,p2=document.getElementById('rp2').value;
+  document.getElementById('re').style.display='none';document.getElementById('ro').style.display='none';
+  if(!u||!e||!p||!p2){showE('re','Vui lòng nhập đầy đủ');return}
+  if(p!==p2){showE('re','Mật khẩu xác nhận không khớp');return}
+  if(p.length<6){showE('re','Mật khẩu phải có ít nhất 6 ký tự');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){showE('re','Email không hợp lệ');return}
+  const users=LS.g('users')||[];
+  if(users.find(x=>x.username===u)){showE('re','Tên đăng nhập đã tồn tại');return}
+  if(users.find(x=>x.email===e)){showE('re','Email đã được sử dụng');return}
+  users.push({username:u,email:e,password:p,is_admin:false,created_at:Date.now(),key_inventory:{dong:0,bac:0,vang:0},key_expiry:null,history:[],stats:{uploads:0,downloads:0,totalAcc:0,totalMb:0}});
+  LS.s('users',users);showE('re','✅ Đăng ký thành công! Đang chuyển...','ok');
+  setTimeout(()=>sw('login'),1400);
+}
+
+function doFgt1(){
+  const u=document.getElementById('fu').value.trim();
+  document.getElementById('fe').style.display='none';document.getElementById('fo').style.display='none';
+  if(!u){showE('fe','Nhập tên đăng nhập hoặc email');return}
+  const users=LS.g('users')||[];const user=users.find(x=>x.username===u||x.email===u);
+  if(!user){showE('fe','Không tìm thấy tài khoản');return}
+  const code=(100000+Math.floor(Math.random()*900000)).toString();
+  const codes=LS.g('rcodes')||{};codes[user.username]={code,exp:Date.now()+600000};LS.s('rcodes',codes);LS.s('fpend',user.username);
+  showE('fe',`✅ Mã đã gửi qua bot Telegram! (Demo: ${code})`,'ok');
+  setTimeout(()=>{document.getElementById('fs1').style.display='none';document.getElementById('fs2').style.display=''},1800);
+}
+
+function doFgt2(){
+  const code=document.getElementById('rc').value.trim(),np=document.getElementById('rnp').value;
+  document.getElementById('fe2').style.display='none';
+  const pu=LS.g('fpend');if(!pu){showE('fe2','Phiên hết hạn');return}
+  const codes=LS.g('rcodes')||{},en=codes[pu];
+  if(!en||en.code!==code||Date.now()>en.exp){showE('fe2','Mã không đúng hoặc hết hạn');return}
+  if(np.length<6){showE('fe2','Mật khẩu mới phải ít nhất 6 ký tự');return}
+  const users=LS.g('users')||[];const i=users.findIndex(x=>x.username===pu);
+  if(i>=0){users[i].password=np;LS.s('users',users)}
+  delete codes[pu];LS.s('rcodes',codes);LS.d('fpend');
+  toast('success','✅ Đặt lại mật khẩu thành công!');sw('login');
+}
+
+function doLogout(){CU=null;LS.d('sess');RL=[];PL=[];FR=[];document.getElementById('app').style.display='none';document.getElementById('auth').style.display='flex'}
+
+function loadApp(){
+  document.getElementById('auth').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('nav-un').textContent=CU.username;
+  document.getElementById('nav-av').textContent=CU.username[0].toUpperCase();
+  document.getElementById('wmt').textContent=`BLF|${CU.username}|${Date.now().toString(36).toUpperCase()}`;
+  document.getElementById('dbd').className='dbd on';document.getElementById('dbt').textContent='LocalStorage ✓';
+  if(CU.is_admin)document.querySelectorAll('.adm').forEach(e=>e.style.display='');
+  updKey();updInv();ldStats();setInterval(updKey,10000);
+}
+
+window.addEventListener('load',()=>{const s=LS.g('sess');if(s){const u=(LS.g('users')||[]).find(x=>x.username===s);if(u){CU=JSON.parse(JSON.stringify(u));loadApp()}}});
+
+// ═══════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════
+function stab(t,el){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tc').forEach(x=>x.classList.remove('on'));
+  if(el)el.classList.add('on');document.getElementById('tab-'+t).classList.add('on');
+  if(t==='admin')ldAdmin();if(t==='stats')ldStats();
+}
+
+// ═══════════════════════════════════════════════
+// FILE / PASTE
+// ═══════════════════════════════════════════════
+const upz=document.getElementById('upz');
+upz.addEventListener('dragover',e=>{e.preventDefault();upz.classList.add('drag')});
+upz.addEventListener('dragleave',()=>upz.classList.remove('drag'));
+upz.addEventListener('drop',e=>{e.preventDefault();upz.classList.remove('drag');const f=e.dataTransfer.files[0];if(f)procFile(f)});
+function onFile(e){const f=e.target.files[0];if(f)procFile(f)}
+
+function procFile(f){
+  if(!f.name.toLowerCase().endsWith('.txt')){toast('error','❌ Chỉ hỗ trợ .TXT');return}
+  document.getElementById('uplbl').textContent='📄 '+f.name;
+  document.getElementById('pbw').style.display='block';setP(0,'Đang đọc...');
+  const r=new FileReader();
+  r.onprogress=e=>{if(e.lengthComputable)setP(e.loaded/e.total*50,'Đang đọc...')}
+  r.onload=e=>{
+    setP(60,'Đang phân tích...');
+    setTimeout(()=>{
+      const txt=e.target.result;
+      RL=txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+      setP(80,'Parse dữ liệu...');
+      PL=RL.map(parseAcc);setP(100,'Hoàn tất!');
+      const mb=(f.size/1024/1024).toFixed(2);
+      setTimeout(()=>{
+        document.getElementById('pbw').style.display='none';
+        document.getElementById('input-area').value=RL.join('\n');
+        document.getElementById('in-cnt').textContent=RL.length.toLocaleString();
+        addLog(`Load file: ${f.name} — ${RL.length.toLocaleString()} dòng (${mb}MB)`,'ok');
+        updStat('uploads',1);updStat('totalMb',parseFloat(mb));svUser();
+        toast('success',`✅ Đã load: ${RL.length.toLocaleString()} acc`);
+      },400);
+    },50);
+  };
+  r.readAsText(f,'utf-8');
+}
+
+function setP(pct,lbl){document.getElementById('pbf').style.width=pct+'%';document.getElementById('pbl').textContent=lbl}
+
+function openPaste(){document.getElementById('paste-modal').classList.add('open');document.getElementById('paste-ta').value='';setTimeout(()=>document.getElementById('paste-ta').focus(),100)}
+function closePaste(){document.getElementById('paste-modal').classList.remove('open')}
+function doPaste(){
+  const txt=document.getElementById('paste-ta').value.trim();closePaste();
+  if(!txt){toast('error','Không có dữ liệu');return}
+  RL=txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  PL=RL.map(parseAcc);
+  document.getElementById('input-area').value=RL.join('\n');
+  document.getElementById('in-cnt').textContent=RL.length.toLocaleString();
+  addLog(`Paste data: ${RL.length.toLocaleString()} dòng`,'ok');
+  toast('success',`✅ Đã paste: ${RL.length.toLocaleString()} acc`);
+}
+
+function clearAll(){RL=[];PL=[];FR=[];document.getElementById('input-area').value='';document.getElementById('in-cnt').textContent='0';document.getElementById('res-box').style.display='none';document.getElementById('uplbl').textContent='Kéo thả hoặc nhấn để Load file .TXT';addLog('Reset tất cả','warn')}
+function clearOut(){FR=[];document.getElementById('res-area').value='';document.getElementById('res-box').style.display='none'}
+function resetFilters(){['f-tuong','f-skin-name','f-skin','f-level','f-so','f-qh','f-ss','f-nap','f-sss','f-anime','f-sao'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['f-country','f-fb','f-rank','f-tinhtrang','f-ban','f-email','f-cmnd','f-authen','f-sdt'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['sss-tel','sss-bij','sss-tri','sss-vio'].forEach(id=>{const e=document.getElementById(id);if(e)e.checked=false});toast('info','↺ Đã reset bộ lọc')}
+
+// ═══════════════════════════════════════════════
+// PARSE ACC LINE
+// ═══════════════════════════════════════════════
+function parseAcc(line){
+  const d={raw:line,skin:0,sss:0,anime:0,ss:0,banned:false,ban_type:'none',so:0,qh:0,status_key:'',rank:'',sao:0,level:0,nap:null,country:'',fb:false,email:false,cmnd:false,authen:false,sdt:false,skin_list:'',tuong_list:''};
+  let m;
+  m=line.match(/(?:SKIN|Skin)\s*:\s*(\d+)/i);if(m)d.skin=parseInt(m[1]);
+  // SSS: không đếm "No Skin" hoặc [NO
+  if(/SSS\s*:\s*(?:No Skin|0\s*\[NO)/i.test(line))d.sss=0;
+  else{m=line.match(/SSS\s*:\s*(\d+)/i);if(m)d.sss=parseInt(m[1])}
+  m=line.match(/(?:ANIME|Anime)\s*:\s*(\d+)/i);if(m)d.anime=parseInt(m[1]);
+  m=line.match(/(?<![S])SS\s*:\s*(\d+)/i);if(m)d.ss=parseInt(m[1]);
+  // Ban
+  const banNew=line.match(/BAND\s*:\s*YES\s*\[[\d:]+\s+(\d{2}-\d{2}-\d{4})\s+-\s+[\d:]+\s+(\d{2}-\d{2}-\d{4})\]/i);
+  const banOld=line.match(/Ban\s*:\s*Yes\s*\[(.+?)\]/i);
+  if(banNew){d.banned=true;try{const d1=new Date(banNew[1].split('-').reverse().join('-')),d2=new Date(banNew[2].split('-').reverse().join('-'));const diff=(d2-d1)/86400000;d.ban_type=diff<=31?'ngay':diff<=366?'thang':'nam'}catch{d.ban_type='khac'}}
+  else if(banOld){d.banned=true;const bi=banOld[1].toLowerCase();d.ban_type=bi.includes('ngày')||bi.includes('ngay')?'ngay':bi.includes('tháng')||bi.includes('thang')?'thang':bi.includes('năm')||bi.includes('nam')?'nam':'khac'}
+  m=line.match(/(?:SÒ|Sò)\s*:\s*(\d+)/);if(m)d.so=parseInt(m[1]);
+  m=line.match(/(?:QH|Qu[aâ]n\s*Huy)\s*:\s*(\d+)/i);if(m)d.qh=parseInt(m[1]);
+  m=line.match(/Level\s*:\s*(\d+)/i);if(m)d.level=parseInt(m[1]);
+  m=line.match(/Lịch\s*Sử\s*Nạp\s*:\s*(\d+)/i);if(m)d.nap=parseInt(m[1]);
+  // Status
+  m=line.match(/(?:TÌNH TRẠNG|Tình Trạng)\s*:\s*(.+?)(?:\s*\||\s*$)/i);
+  if(m){const s=m[1].trim().toLowerCase();
+    d.status_key=s.includes('acc full')?'full':s.includes('acc dính mỗi số')||s.includes('acc dính số')?'dinhso':s.includes('acc dính email')||s.includes('acc dính mail')?'dinhmail':s.includes('acc dính fb')?'dinhfb':s.includes('acc trắng thông tin')?'trang':s.includes('acc trắng lỗi pass')?'loipass':''
+  }
+  if(!d.status_key&&/\bFB\s*:\s*(?:LIVE|Live)\b/i.test(line))d.status_key='dinhfb';
+  // Facebook
+  if(/\bFB\s*:\s*(?:LIVE|Live|Yes)\b/i.test(line))d.fb=true;
+  // Email
+  if(/\bEmail\s*:\s*(?:Yes|CO|CÓ)\b/i.test(line))d.email=true;
+  // CMND
+  if(/\bCMND\s*:\s*(?:Yes|CO|CÓ)\b/i.test(line))d.cmnd=true;
+  // Authen
+  if(/\bAuthen\s*:\s*(?:Yes|CO|CÓ|ON)\b/i.test(line))d.authen=true;
+  // SĐT
+  if(/\bSĐT\s*:\s*(?:Yes|CO|CÓ)\b/i.test(line)||/\bSDT\s*:\s*(?:Yes|CO|CÓ)\b/i.test(line))d.sdt=true;
+  // Country
+  m=line.match(/Country\s*:\s*([A-Z]{2})/i);if(m)d.country=m[1].toUpperCase();
+  // Rank
+  const RANKS=['chiến thần','chiến tướng','đại cao thủ','cao thủ','tinh anh','kim cương','bạch kim','vàng','bạc','đồng'];
+  for(const r of RANKS){if(line.toLowerCase().includes(r)){d.rank=r;break}}
+  // Sao rank
+  for(const pat of[/\[(\d+)\s*✮\]/,/(\d+)\s*✮/,/\[(\d+)\s*[Ss]ao\]/,/[Ss]ao\s*:\s*(\d+)/,/(\d+)\s*★/]){m=line.match(pat);if(m){d.sao=parseInt(m[1]);break}}
+  // Fix Chiến Thần sao
+  if(d.rank==='chiến thần'&&d.sao<100)d.rank='';
+  // Skin list (tên skin)
+  ['SS','SSS','ANIME'].forEach(t=>{const r=new RegExp(`${t}\\s*:\\s*\\d+\\s*\\[([^\\]]+)\\]`,'i');m=line.match(r);if(m)d.skin_list+=' '+m[1]});
+  return d;
+}
+
+// ═══════════════════════════════════════════════
+// RANGE HELPER
+// ═══════════════════════════════════════════════
+function matchRange(val,str){
+  if(val===null||val===undefined)return false;
+  str=str.trim();if(!str)return true;
+  if(str.startsWith('=')){return val===parseInt(str.replace('=',''))}
+  if(str.endsWith('+')&&!str.includes('-')){return val>=parseInt(str)}
+  if(str.endsWith('-')&&!str.includes('+')){return val<=parseInt(str)}
+  if(str.includes('-')){const[a,b]=str.split('-').map(Number);return val>=a&&val<=b}
+  return val===parseInt(str);
+}
+
+// ═══════════════════════════════════════════════
+// RUN FILTERS
+// ═══════════════════════════════════════════════
+function runFilters(){
+  if(!RL.length){toast('error','❌ Chưa có dữ liệu!');return}
+  if(!chkPerm())return;
+
+  const fTuong=document.getElementById('f-tuong').value.trim().toLowerCase();
+  const fSkinName=document.getElementById('f-skin-name').value.trim().toLowerCase();
+  const fSkin=document.getElementById('f-skin').value.trim();
+  const fLevel=document.getElementById('f-level').value.trim();
+  const fSo=document.getElementById('f-so').value.trim();
+  const fQH=document.getElementById('f-qh').value.trim();
+  const fSS=document.getElementById('f-ss').value.trim();
+  const fNap=document.getElementById('f-nap').value.trim();
+  const fSSS=document.getElementById('f-sss').value.trim();
+  const fAnime=document.getElementById('f-anime').value.trim();
+  const fCountry=document.getElementById('f-country').value.trim();
+  const fFB=document.getElementById('f-fb').value;
+  const fRank=document.getElementById('f-rank').value.trim().toLowerCase();
+  const fSao=document.getElementById('f-sao').value.trim();
+  const fTT=document.getElementById('f-tinhtrang').value.trim().toLowerCase();
+  const fBan=document.getElementById('f-ban').value;
+  const fEmail=document.getElementById('f-email').value;
+  const fCMND=document.getElementById('f-cmnd').value;
+  const fAuthen=document.getElementById('f-authen').value;
+  const fSDT=document.getElementById('f-sdt').value;
+
+  // SSS rác
+  const sssRac=[];
+  if(document.getElementById('sss-tel').checked)sssRac.push('telannas thần sứ');
+  if(document.getElementById('sss-bij').checked)sssRac.push('bijan kình thiên');
+  if(document.getElementById('sss-tri').checked)sssRac.push('triệu vân minh chung');
+  if(document.getElementById('sss-vio').checked)sssRac.push('violet vọng nguyệt');
+
+  const res=[];const filterDesc=[];
+
+  RL.forEach((line,i)=>{
+    const p=PL[i];
+
+    // Tướng / Quick search
+    if(fTuong&&!line.toLowerCase().includes(fTuong))return;
+    // Tên skin
+    if(fSkinName&&!p.skin_list.toLowerCase().includes(fSkinName))return;
+    // Số skin
+    if(fSkin&&!matchRange(p.skin,fSkin))return;
+    // Level
+    if(fLevel&&!matchRange(p.level,fLevel))return;
+    // Sò
+    if(fSo&&!matchRange(p.so,fSo))return;
+    // QH
+    if(fQH&&!matchRange(p.qh,fQH))return;
+    // SS
+    if(fSS&&!matchRange(p.ss,fSS))return;
+    // Lần nạp
+    if(fNap&&!matchRange(p.nap,fNap))return;
+    // SSS
+    if(fSSS){if(!matchRange(p.sss,fSSS))return;
+      // Lọc SSS rác
+      if(sssRac.length>0&&p.sss>0){const sl=p.skin_list.toLowerCase();if(sssRac.every(r=>sl.includes(r)))return}}
+    // Anime
+    if(fAnime&&!matchRange(p.anime,fAnime))return;
+    // Country
+    if(fCountry&&p.country.toLowerCase()!==fCountry.toLowerCase())return;
+    // Facebook
+    if(fFB==='yes'&&!p.fb)return;if(fFB==='no'&&p.fb)return;
+    // Rank
+    if(fRank){const rl=fRank.toLowerCase();if(p.rank!==rl&&!p.rank.includes(rl))return;
+      if(fSao&&!matchRange(p.sao,fSao))return}
+    // Tình trạng
+    if(fTT){const ttMap={'acc full':'full','acc dính mỗi số':'dinhso','acc dính email':'dinhmail','acc dính fb':'dinhfb','acc trắng thông tin':'trang','acc trắng lỗi pass':'loipass'};
+      const want=ttMap[fTT.toLowerCase()]||fTT.toLowerCase();if(p.status_key!==want)return}
+    // Ban
+    if(fBan==='no'&&p.banned)return;
+    if(fBan==='yes'&&!p.banned)return;
+    if(fBan==='ngay'&&(p.ban_type!=='ngay'))return;
+    if(fBan==='thang'&&(p.ban_type!=='thang'))return;
+    if(fBan==='nam'&&(p.ban_type!=='nam'))return;
+    // Email
+    if(fEmail==='yes'&&!p.email)return;if(fEmail==='no'&&p.email)return;
+    // CMND
+    if(fCMND==='yes'&&!p.cmnd)return;if(fCMND==='no'&&p.cmnd)return;
+    // Authen
+    if(fAuthen==='yes'&&!p.authen)return;if(fAuthen==='no'&&p.authen)return;
+    // SĐT
+    if(fSDT==='yes'&&!p.sdt)return;if(fSDT==='no'&&p.sdt)return;
+
+    res.push(line);
+  });
+
+  FR=res;
+  // Build filter desc
+  if(fTuong)filterDesc.push('Tướng:'+fTuong);
+  if(fSkinName)filterDesc.push('Skin:'+fSkinName);
+  if(fSkin)filterDesc.push('Skin#'+fSkin);
+  if(fLevel)filterDesc.push('Level:'+fLevel);
+  if(fSo)filterDesc.push('Sò:'+fSo);
+  if(fQH)filterDesc.push('QH:'+fQH);
+  if(fSS)filterDesc.push('SS:'+fSS);
+  if(fSSS)filterDesc.push('SSS:'+fSSS);
+  if(fAnime)filterDesc.push('Anime:'+fAnime);
+  if(fNap)filterDesc.push('Nạp:'+fNap);
+  if(fRank)filterDesc.push('Rank:'+fRank+(fSao?' '+fSao+'⭐':''));
+  if(fTT)filterDesc.push('Tình trạng:'+fTT);
+  if(fBan)filterDesc.push('Ban:'+fBan);
+  if(fFB)filterDesc.push('FB:'+fFB);
+  if(fEmail)filterDesc.push('Email:'+fEmail);
+  const desc=filterDesc.length?filterDesc.join(' | '):'Không lọc (tất cả)';
+
+  const rb=document.getElementById('res-box');rb.style.display='block';
+  document.getElementById('res-tit').textContent='🔍 Kết Quả — '+desc;
+  document.getElementById('res-cnt').textContent=res.length.toLocaleString()+' acc / '+RL.length.toLocaleString()+' tổng';
+  document.getElementById('res-area').value=res.join('\n');
+  rb.scrollIntoView({behavior:'smooth',block:'nearest'});
+  addLog(`Lọc: ${desc} → ${res.length.toLocaleString()} acc`,'ok');
+  logHist(desc,res.length,'txt');
+  updStat('downloads',1);updStat('totalAcc',res.length);svUser();
+  toast('info',`🔍 ${res.length.toLocaleString()} acc`);
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
+function extractUserPass(line){
+  // Thử các định dạng: user:pass | user|pass | đầu dòng trước ký tự phân cách
+  let m=line.match(/^([^\|:]+)[|:]([^\|:\s]+)/);
+  if(m)return{u:m[1].trim(),p:m[2].trim()};
+  // Thử tách bởi pipe
+  const parts=line.split('|');if(parts.length>=2)return{u:parts[0].trim(),p:parts[1].trim()};
+  return null;
+}
+
+function exportAs(type){
+  const data=FR.length?FR:(RL.length?RL:[]);
+  if(!data.length){toast('error','Không có dữ liệu để xuất');return}
+  let content='',fn='';
+  if(type==='txt'){content=data.join('\n');fn='export_txt_'+Date.now()+'.txt';toast('success','✅ Xuất TXT: '+data.length.toLocaleString()+' dòng')}
+  else if(type==='upipe'){
+    const lines=data.map(l=>{const r=extractUserPass(l);return r?`${r.u}|${r.p}`:null}).filter(Boolean);
+    content=lines.join('\n');fn='export_user_pipe_pass_'+Date.now()+'.txt';
+    toast('success','✅ Xuất User|Pass: '+lines.length.toLocaleString()+' acc');
+  }
+  else if(type==='ucolon'){
+    const lines=data.map(l=>{const r=extractUserPass(l);return r?`${r.u}:${r.p}`:null}).filter(Boolean);
+    content=lines.join('\n');fn='export_user_colon_pass_'+Date.now()+'.txt';
+    toast('success','✅ Xuất User:Pass: '+lines.length.toLocaleString()+' acc');
+  }
+  if(!content){toast('error','Không có dữ liệu hợp lệ để xuất');return}
+  const b=new Blob([content],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=fn;a.click();URL.revokeObjectURL(a.href);
+  addLog(`Export ${type}: ${fn}`,'ok');
+}
+
+// ═══════════════════════════════════════════════
+// PERMISSION
+// ═══════════════════════════════════════════════
+function chkPerm(){
+  if(!CU)return false;if(CU.is_admin)return true;
+  if(CU.key_expiry&&Date.now()<CU.key_expiry)return true;
+  const td=new Date().toDateString();
+  if(!CU.last_free||CU.last_free!==td){CU.last_free=td;CU.free_used=0}
+  if(CU.free_used<1){CU.free_used=1;svUser();toast('info','🆓 Dùng lượt miễn phí (còn 0)');return true}
+  showModal('Hết lượt','Đã dùng hết lượt miễn phí hôm nay. Vui lòng mua key!',()=>{stab('shop',document.querySelector('.tab:nth-child(2)'))});return false;
+}
+
+// ═══════════════════════════════════════════════
+// KEY SYSTEM
+// ═══════════════════════════════════════════════
+function fmtDur(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),ss=s%60;return h>0?`${h}h ${m}m`:m>0?`${m}m ${ss}s`:`${ss}s`}
+
+function updKey(){
+  if(!CU)return;
+  const d=document.getElementById('kd'),t=document.getElementById('kst'),tm=document.getElementById('ktm');
+  if(CU.is_admin){d.className='kd on';t.textContent='Admin — Không giới hạn';tm.style.display='none';return}
+  if(CU.key_expiry&&CU.key_expiry>Date.now()){d.className='kd on';t.textContent='Key đang hoạt động';tm.style.display='';tm.textContent=fmtDur(CU.key_expiry-Date.now())}
+  else{d.className='kd off';t.textContent='Chưa có key — 1 lượt miễn phí/ngày';tm.style.display='none'}
+}
+function updInv(){
+  if(!CU)return;const inv=CU.key_inventory||{dong:0,bac:0,vang:0};
+  document.getElementById('inv-d').textContent=inv.dong||0;
+  document.getElementById('inv-b').textContent=inv.bac||0;
+  document.getElementById('inv-v').textContent=inv.vang||0;
+  const now=Date.now();document.getElementById('kinf').textContent=CU.key_expiry&&CU.key_expiry>now?`🟢 Key đang chạy — còn ${fmtDur(CU.key_expiry-now)}`:'⚫ Không có key đang chạy';
+}
+function actKey(){
+  const code=document.getElementById('ki').value.trim().toUpperCase();const msg=document.getElementById('amsg');msg.textContent='';
+  if(!code){msg.innerHTML='<span style="color:var(--rd)">Nhập mã key!</span>';return}
+  const keys=LS.g('keys')||[];const k=keys.find(x=>x.code===code&&x.status==='unused'&&(!x.for_user||x.for_user===CU.username));
+  if(!k){msg.innerHTML='<span style="color:var(--rd)">❌ Mã key không hợp lệ hoặc đã sử dụng!</span>';return}
+  const inv=CU.key_inventory||{dong:0,bac:0,vang:0};inv[k.type]=(inv[k.type]||0)+1;CU.key_inventory=inv;
+  const i=keys.indexOf(k);keys[i]={...k,status:'used',used_by:CU.username,used_at:Date.now()};LS.s('keys',keys);
+  svUser();updInv();msg.innerHTML='<span style="color:var(--gr)">✅ Key đã vào kho!</span>';document.getElementById('ki').value='';toast('success','✅ Kích hoạt thành công!');
+}
+function uk(type){
+  const inv=CU.key_inventory||{dong:0,bac:0,vang:0};if(!inv[type]){toast('error','❌ Không có key loại này!');return}
+  const hrs={dong:1,bac:24,vang:168}[type],now=Date.now(),base=CU.key_expiry&&CU.key_expiry>now?CU.key_expiry:now;
+  CU.key_expiry=base+hrs*3600000;inv[type]--;CU.key_inventory=inv;svUser();updInv();updKey();toast('success',`✅ Kích hoạt key ${type}! +${hrs}h`);
+}
+function ctA(t){toast('info',`💬 Liên hệ admin để mua key ${t}!`)}
+
+// ═══════════════════════════════════════════════
+// STATS / HISTORY
+// ═══════════════════════════════════════════════
+function ldStats(){
+  if(!CU)return;const s=CU.stats||{};
+  document.getElementById('stu').textContent=s.uploads||0;
+  document.getElementById('std').textContent=s.downloads||0;
+  document.getElementById('sta').textContent=(s.totalAcc||0).toLocaleString();
+  document.getElementById('stm').textContent=(s.totalMb||0).toFixed(1);
+  const tbody=document.getElementById('hbody'),h=CU.history||[];
+  tbody.innerHTML=h.length?h.slice(-30).reverse().map(x=>`<tr>
+    <td style="color:var(--mu)">${new Date(x.time).toLocaleString('vi-VN')}</td>
+    <td><span class="bdg bl">${x.filter}</span></td>
+    <td style="color:var(--ac)">${x.count.toLocaleString()}</td>
+    <td><span class="bdg mu">${x.exp||'txt'}</span></td>
+  </tr>`).join(''):'<tr><td colspan="4" style="text-align:center;color:var(--mu);padding:20px">Chưa có lịch sử</td></tr>';
+}
+function logHist(filter,count,exp='txt'){
+  if(!CU)return;if(!CU.history)CU.history=[];
+  CU.history.push({time:Date.now(),filter,count,exp});if(CU.history.length>100)CU.history=CU.history.slice(-100);svUser();
+}
+function updStat(k,v){if(!CU)return;if(!CU.stats)CU.stats={};CU.stats[k]=(CU.stats[k]||0)+v}
+function svUser(){
+  const users=LS.g('users')||[];const i=users.findIndex(u=>u.username===CU.username);
+  if(i>=0){users[i]=JSON.parse(JSON.stringify(CU));LS.s('users',users)}
+}
+
+// ═══════════════════════════════════════════════
+// LOG
+// ═══════════════════════════════════════════════
+function addLog(msg,type='info'){
+  const box=document.getElementById('log-box');
+  const t=new Date().toLocaleTimeString('vi-VN');
+  const cls=type==='ok'?'log-ok':type==='warn'?'log-warn':type==='err'?'log-err':'log-info';
+  const el=document.createElement('div');el.className='log-entry';
+  el.innerHTML=`<span class="log-time">${t}</span><span class="${cls}">${msg}</span>`;
+  if(box.children[0]&&box.children[0].textContent==='Chưa có log')box.innerHTML='';
+  box.prepend(el);if(box.children.length>50)box.lastChild.remove();
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN
+// ═══════════════════════════════════════════════
+function ldAdmin(){
+  if(!CU||!CU.is_admin)return;
+  const users=LS.g('users')||[],keys=LS.g('keys')||[];
+  const wk=users.filter(u=>u.key_expiry&&Date.now()<u.key_expiry).length;
+  document.getElementById('au').textContent=users.length;document.getElementById('ak').textContent=wk;
+  document.getElementById('aak').textContent=keys.length;document.getElementById('auk').textContent=keys.filter(k=>k.status==='unused').length;
+  const klb=document.getElementById('klb');
+  klb.innerHTML=keys.slice(-50).reverse().map(k=>`<tr>
+    <td>${k.code}</td><td>${{dong:'🟤 Đồng',bac:'⚪ Bạc',vang:'🟡 Vàng'}[k.type]||k.type}</td>
+    <td><span class="bdg ${k.status==='unused'?'gr':'bl'}">${k.status==='unused'?'Chưa dùng':'Đã dùng'}</span></td>
+    <td style="color:var(--mu)">${k.for_user||'—'}</td>
+    <td><div class="aacts">${k.status==='unused'?`<button class="abx r" onclick="admDK('${k.code}')">Xóa</button>`:''}</div></td>
+  </tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mu);padding:16px">Chưa có key</td></tr>';
+  const ulb=document.getElementById('ulb');
+  ulb.innerHTML=users.map(u=>{
+    const ki=u.key_expiry&&Date.now()<u.key_expiry?`<span class="bdg gr">Còn ${fmtDur(u.key_expiry-Date.now())}</span>`:`<span class="bdg mu">Hết hạn</span>`;
+    return`<tr>
+      <td style="font-weight:700">${u.username}${u.is_admin?' <span style="color:var(--ac);font-size:10px">[Admin]</span>':''}</td>
+      <td style="color:var(--mu)">${u.email}</td>
+      <td style="color:var(--mu)">${new Date(u.created_at).toLocaleDateString('vi-VN')}</td>
+      <td>${ki}</td>
+      <td><div class="aacts">${!u.is_admin?`<button class="abx g" onclick="admAK('${u.username}')">+Key</button>`:''} ${!u.is_admin?`<button class="abx r" onclick="admDU('${u.username}')">Xóa</button>`:''}</div></td>
+    </tr>`;}).join('');
+}
+function admCK(){
+  const t=document.getElementById('akt').value,q=parseInt(document.getElementById('akq').value)||1,fu=document.getElementById('aku').value.trim();
+  const keys=LS.g('keys')||[];const created=[];
+  for(let i=0;i<q;i++){const code=t.toUpperCase().slice(0,4)+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();keys.push({code,type:t,status:'unused',for_user:fu||null,created_at:Date.now()});created.push(code)}
+  LS.s('keys',keys);
+  document.getElementById('ckeys').innerHTML=`<div style="background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:10px;margin-top:8px"><div style="font-size:11px;color:var(--mu);margin-bottom:6px">✅ Đã tạo ${q} key:</div>${created.map(c=>`<div style="font-family:monospace;font-size:12px;color:var(--ac);padding:2px 0">${c}</div>`).join('')}</div>`;
+  toast('success',`✅ Tạo ${q} key thành công!`);ldAdmin();
+}
+function admAK(un){const t=document.getElementById('akt').value;const keys=LS.g('keys')||[];const code=t.toUpperCase().slice(0,4)+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();keys.push({code,type:t,status:'unused',for_user:un,created_at:Date.now()});LS.s('keys',keys);toast('success',`✅ Đã cấp key ${t} cho ${un}`);ldAdmin()}
+function admDK(code){showModal('Xóa key','Bạn có chắc muốn xóa key này?',()=>{LS.s('keys',(LS.g('keys')||[]).filter(k=>k.code!==code));ldAdmin();toast('success','✅ Đã xóa key')})}
+function admDU(un){showModal('Xóa user',`Bạn có chắc muốn xóa "${un}"?`,()=>{LS.s('users',(LS.g('users')||[]).filter(u=>u.username!==un));ldAdmin();toast('success','✅ Đã xóa user')})}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function toast(type,msg){const c=document.getElementById('tw'),t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`<span>${{success:'✅',error:'❌',info:'ℹ️'}[type]}</span><span>${msg}</span>`;c.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='.3s';setTimeout(()=>t.remove(),300)},3500)}
+function showModal(tt,bd,cb){document.getElementById('mtt').textContent=tt;document.getElementById('mbd').textContent=bd;document.getElementById('mv').classList.add('open');mcb=cb;document.getElementById('mok').onclick=()=>{cMod();if(mcb)mcb()}}
+function cMod(){document.getElementById('mv').classList.remove('open')}
+</script>
+</body>
+</html>
