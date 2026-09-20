@@ -215,10 +215,19 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
 /* WATERMARK */
 .wm{position:fixed;bottom:6px;right:10px;font-size:9px;color:rgba(0,212,255,.06);pointer-events:none;z-index:1;font-family:monospace;letter-spacing:2px}
 
+.flabel{font-size:11px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;display:block}
 /* SSS FILTER */
 .sss-opts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 .sss-chk{display:flex;align-items:center;gap:4px;cursor:pointer;font-size:12px;color:var(--mu)}
 .sss-chk input{accent-color:var(--ac)}
+/* 4 STAT CARDS */
+.info4{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.info4.show{display:grid}
+.i4c{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:14px 10px;text-align:center;transition:.2s}
+.i4c:hover{border-color:rgba(0,212,255,.3);transform:translateY(-1px)}
+.i4n{font-size:24px;font-weight:800;line-height:1;margin-bottom:4px}
+.i4l{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--mu);font-weight:600}
+@media(max-width:500px){.info4{grid-template-columns:repeat(2,1fr)}}
 
 @media(max-width:900px){.sg{grid-template-columns:repeat(2,1fr)}.ckform{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.sg{grid-template-columns:1fr}.mc{padding:10px}.fgrid{grid-template-columns:1fr 1fr}.tabs{gap:2px}.tab{padding:4px 8px;font-size:11px}}
@@ -305,83 +314,134 @@ body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradi
     <div class="tc on" id="tab-filter">
       <div class="kbar"><div class="kd off" id="kd"></div><span id="kst">Chưa kích hoạt key</span><span class="ktm" id="ktm" style="display:none"></span></div>
 
-      <!-- BỘ LỌC -->
+      <!-- 4 Ô THỐNG KÊ FILE -->
+      <div class="info4" id="info4">
+        <div class="i4c"><div class="i4n" id="i4-total" style="color:var(--ac)">0</div><div class="i4l">Tổng ACC</div></div>
+        <div class="i4c"><div class="i4n" id="i4-sss" style="color:var(--pu)">0</div><div class="i4l">Có SSS</div></div>
+        <div class="i4c"><div class="i4n" id="i4-ss" style="color:var(--yl)">0</div><div class="i4l">Có SS</div></div>
+        <div class="i4c"><div class="i4n" id="i4-anime" style="color:var(--gr)">0</div><div class="i4l">Có Anime</div></div>
+      </div>
+
+      <!-- BỘ LỌC — đầy đủ theo source botlocfile_V1.1 -->
       <div class="fpan">
         <div class="ftit"><div class="dot"></div>Bộ Lọc</div>
 
-        <!-- ROW 1: Tướng -->
-        <div class="frow"><span class="fl">🗡️ Tướng</span><input class="finp" id="f-tuong" placeholder="Tên tướng (quick search)"></div>
-        <!-- ROW 2: Skin name -->
-        <div class="frow"><span class="fl">🎨 Tên Skin</span><input class="finp" id="f-skin-name" placeholder="Tên skin cần tìm"></div>
+        <!-- 1. Tìm kiếm nhanh -->
+        <div class="flabel">🗡️ Tướng / Quick search</div>
+        <input class="finp" id="f-tuong" placeholder="Tên tướng (quick search toàn dòng)" style="width:100%;margin-bottom:8px">
+        <div class="flabel">🎨 Tên Skin</div>
+        <input class="finp" id="f-skin-name" placeholder="Tên skin cần tìm (VD: Rồng Vàng)" style="width:100%;margin-bottom:4px">
         <div class="fsep"></div>
-        <!-- ROW 3: Số liệu -->
-        <div class="frow">
-          <span class="fl">Số Skin</span><input class="finp" id="f-skin" placeholder="VD: 100+ / 50-200 / =20" style="max-width:160px">
-          <span class="fl" style="margin-left:8px">Level</span><input class="finp" id="f-level" placeholder="VD: 50+" style="max-width:140px">
-          <span class="fl" style="margin-left:8px">Sò</span><input class="finp" id="f-so" placeholder="VD: 10000+" style="max-width:140px">
-        </div>
-        <div class="frow">
-          <span class="fl">QH</span><input class="finp" id="f-qh" placeholder="VD: 500+" style="max-width:140px">
-          <span class="fl" style="margin-left:8px">SS</span><input class="finp" id="f-ss" placeholder="VD: 1+" style="max-width:140px">
-          <span class="fl" style="margin-left:8px">Lần nạp</span><input class="finp" id="f-nap" placeholder="VD: 100+" style="max-width:140px">
+
+        <!-- 2. Số lượng -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+          <div><div class="flabel">🎮 Số Skin</div><input class="finp" id="f-skin" placeholder="100+ / 50-200 / =20" style="width:100%"></div>
+          <div><div class="flabel">🎯 Level</div><input class="finp" id="f-level" placeholder="50+ / 10-50 / =20" style="width:100%"></div>
+          <div><div class="flabel">🐚 Sò</div><input class="finp" id="f-so" placeholder="10000+ / 5000-10000" style="width:100%"></div>
+          <div><div class="flabel">🏅 Quân Huy (QH)</div><input class="finp" id="f-qh" placeholder="500+ / 100-500" style="width:100%"></div>
+          <div><div class="flabel">⭐ SS</div><input class="finp" id="f-ss" placeholder="1+ / 5-10" style="width:100%"></div>
+          <div><div class="flabel">💰 Lịch Sử Nạp</div><input class="finp" id="f-nap" placeholder="100+ / 50-200 / =0" style="width:100%"></div>
         </div>
         <div class="fsep"></div>
-        <!-- SSS -->
-        <div class="frow">
-          <span class="fl">💎 SSS</span><input class="finp" id="f-sss" placeholder="VD: 1+" style="max-width:140px">
-        </div>
-        <div style="margin:6px 0 4px 78px;font-size:12px;color:var(--mu)">Lọc SSS rác (bỏ qua):</div>
-        <div class="sss-opts" style="margin-left:78px">
+
+        <!-- 3. SSS -->
+        <div class="flabel">💎 SSS</div>
+        <input class="finp" id="f-sss" placeholder="1+ / 2-5 / =1" style="width:100%;max-width:220px;margin-bottom:6px">
+        <div class="flabel" style="margin-bottom:4px">Lọc SSS rác (bỏ qua những skin này):</div>
+        <div class="sss-opts">
           <label class="sss-chk"><input type="checkbox" id="sss-tel"> TelAnnas Thần sứ F.E.E-X1</label>
           <label class="sss-chk"><input type="checkbox" id="sss-bij"> Bijan Kình thiên Long Kỵ</label>
           <label class="sss-chk"><input type="checkbox" id="sss-tri"> Triệu Vân Minh Chung Long Đế</label>
           <label class="sss-chk"><input type="checkbox" id="sss-vio"> Violet Vọng nguyệt Long Cơ</label>
         </div>
-        <!-- ANIME -->
-        <div class="frow" style="margin-top:8px"><span class="fl">🌸 ANIME</span><input class="finp" id="f-anime" placeholder="VD: 1+" style="max-width:140px"></div>
+
+        <!-- 4. ANIME -->
+        <div class="flabel" style="margin-top:8px">🌸 ANIME</div>
+        <input class="finp" id="f-anime" placeholder="1+ / 2-5 / =1" style="width:100%;max-width:220px;margin-bottom:4px">
         <div class="fsep"></div>
-        <!-- Dropdowns -->
-        <div class="frow">
-          <span class="fl">🌍 Quốc gia</span>
-          <select class="fsel" id="f-country"><option value="">-- Tất cả --</option><option>VN</option><option>US</option><option>TH</option><option>PH</option><option>ID</option><option>SG</option><option>MY</option><option>TW</option></select>
-          <span class="fl" style="margin-left:10px">📘 Facebook</span>
-          <select class="fsel" id="f-fb"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
+
+        <!-- 5. Rank -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+          <div><div class="flabel">🏆 Rank</div>
+            <select class="fsel" id="f-rank" style="width:100%">
+              <option value="">-- Tất cả --</option>
+              <option value="đồng">🥉 Đồng</option>
+              <option value="bạc">🥈 Bạc</option>
+              <option value="vàng">🥇 Vàng</option>
+              <option value="bạch kim">💠 Bạch Kim</option>
+              <option value="kim cương">💎 Kim Cương</option>
+              <option value="tinh anh">🔮 Tinh Anh</option>
+              <option value="cao thủ">⚡ Cao Thủ</option>
+              <option value="đại cao thủ">🌟 Đại Cao Thủ</option>
+              <option value="chiến tướng">🔥 Chiến Tướng</option>
+              <option value="chiến thần">👑 Chiến Thần</option>
+            </select></div>
+          <div><div class="flabel">⭐ Sao rank</div><input class="finp" id="f-sao" placeholder="3-7 / 100+ / =5" style="width:100%"></div>
         </div>
-        <div class="frow">
-          <span class="fl">🏆 Rank</span>
-          <select class="fsel" id="f-rank">
-            <option value="">-- Tất cả --</option>
-            <option>Đồng</option><option>Bạc</option><option>Vàng</option><option>Bạch Kim</option>
-            <option>Kim Cương</option><option>Tinh Anh</option><option>Cao Thủ</option>
-            <option>Đại Cao Thủ</option><option>Chiến Tướng</option><option>Chiến Thần</option>
-          </select>
-          <span class="fl" style="margin-left:10px">Sao rank</span>
-          <input class="finp" id="f-sao" placeholder="VD: 3-7 / 100+" style="max-width:120px">
+        <div class="fsep"></div>
+
+        <!-- 6. Tình trạng -->
+        <div class="flabel">📋 Tình Trạng</div>
+        <select class="fsel" id="f-tinhtrang" style="width:100%;margin-bottom:4px">
+          <option value="">-- Tất cả --</option>
+          <option value="acc full">✅ Acc Full</option>
+          <option value="acc dính số">📱 Acc Dính Số</option>
+          <option value="acc dính mail">📧 Acc Dính Mail</option>
+          <option value="acc dính fb">🔵 Acc Dính FB</option>
+          <option value="acc trắng thông tin">⬜ Acc Trắng Thông Tin</option>
+          <option value="acc trắng lỗi pass">🔑 Acc Trắng Lỗi Pass</option>
+        </select>
+        <div class="fsep"></div>
+
+        <!-- 7. Lọc năm đổi pass -->
+        <div class="flabel">🔑 Năm Đổi Password</div>
+        <select class="fsel" id="f-passyear" style="width:100%;margin-bottom:4px">
+          <option value="">-- Tất cả --</option>
+          <option value="2026">📅 Năm 2026</option>
+          <option value="2025">📅 Năm 2025</option>
+          <option value="2024">📅 Năm 2024</option>
+          <option value="2023">📅 Năm 2023</option>
+          <option value="2023-2025">📅 Từ 2023-2025</option>
+          <option value="2022">📅 Năm 2022</option>
+          <option value="2021">📅 Năm 2021</option>
+          <option value="2020">📅 Năm 2020</option>
+          <option value="2019">📅 Năm 2019</option>
+          <option value="2018">📅 Năm 2018</option>
+          <option value="2017">📅 Năm 2017</option>
+          <option value="2016">📅 Năm 2016</option>
+          <option value="1970">⏳ Chưa từng đổi (1970)</option>
+        </select>
+        <div class="fsep"></div>
+
+        <!-- 8. Ban -->
+        <div class="flabel">🚫 Ban</div>
+        <select class="fsel" id="f-ban" style="width:100%;margin-bottom:4px">
+          <option value="">-- Tất cả --</option>
+          <option value="no">✅ Không bị ban</option>
+          <option value="yes">🚫 Bị ban (tất cả)</option>
+          <option value="ngay">📅 Ban ngày</option>
+          <option value="thang">📅 Ban tháng</option>
+          <option value="nam">📅 Ban năm</option>
+        </select>
+        <div class="fsep"></div>
+
+        <!-- 9. Email / CMND / Authen / SĐT / FB / Quốc gia -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+          <div><div class="flabel">📧 Email</div>
+            <select class="fsel" id="f-email" style="width:100%"><option value="">-- Tất cả --</option><option value="yes">✅ Có email (@)</option><option value="no">❌ Chưa gắn email</option></select></div>
+          <div><div class="flabel">📘 Facebook</div>
+            <select class="fsel" id="f-fb" style="width:100%"><option value="">-- Tất cả --</option><option value="yes">✅ Có FB (Live)</option><option value="no">❌ Không có FB</option></select></div>
+          <div><div class="flabel">🪪 CMND</div>
+            <select class="fsel" id="f-cmnd" style="width:100%"><option value="">-- Tất cả --</option><option value="yes">✅ YES</option><option value="no">❌ NO</option></select></div>
+          <div><div class="flabel">🔐 Authen</div>
+            <select class="fsel" id="f-authen" style="width:100%"><option value="">-- Tất cả --</option><option value="yes">✅ YES</option><option value="no">❌ NO</option></select></div>
+          <div><div class="flabel">📱 SĐT</div>
+            <select class="fsel" id="f-sdt" style="width:100%"><option value="">-- Tất cả --</option><option value="yes">✅ YES</option><option value="no">❌ NO</option></select></div>
+          <div><div class="flabel">🌍 Quốc gia</div>
+            <select class="fsel" id="f-country" style="width:100%"><option value="">-- Tất cả --</option><option>VN</option><option>US</option><option>TH</option><option>PH</option><option>ID</option><option>SG</option><option>MY</option><option>TW</option></select></div>
         </div>
-        <div class="frow">
-          <span class="fl">📋 Tình Trạng</span>
-          <select class="fsel" id="f-tinhtrang">
-            <option value="">-- Tất cả --</option>
-            <option>Acc Trắng Lỗi Pass</option><option>Acc Full</option>
-            <option>Acc Dính Mỗi Số</option><option>Acc Dính Email</option>
-            <option>Acc Trắng Thông Tin</option><option>Acc Dính FB</option>
-          </select>
-        </div>
-        <div class="frow">
-          <span class="fl">🚫 Ban</span>
-          <select class="fsel" id="f-ban"><option value="">-- Tất cả --</option><option value="no">Không bị ban</option><option value="yes">Bị ban</option><option value="ngay">Ban ngày</option><option value="thang">Ban tháng</option><option value="nam">Ban năm</option></select>
-          <span class="fl" style="margin-left:10px">📧 Email</span>
-          <select class="fsel" id="f-email"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
-        </div>
-        <div class="frow">
-          <span class="fl">🪪 CMND</span>
-          <select class="fsel" id="f-cmnd"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
-          <span class="fl" style="margin-left:10px">🔐 Authen</span>
-          <select class="fsel" id="f-authen"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
-          <span class="fl" style="margin-left:10px">📱 SĐT</span>
-          <select class="fsel" id="f-sdt"><option value="">-- Tất cả --</option><option value="yes">YES</option><option value="no">NO</option></select>
-        </div>
-        <div class="frow" style="margin-top:8px">
+
+        <div style="margin-top:10px">
           <button class="actbtn btn-clr" onclick="resetFilters()" style="font-size:12px;padding:7px 14px">↺ Reset bộ lọc</button>
         </div>
       </div>
@@ -686,6 +746,14 @@ function procFile(f){
         document.getElementById('pbw').style.display='none';
         document.getElementById('input-area').value=RL.join('\n');
         document.getElementById('in-cnt').textContent=RL.length.toLocaleString();
+        // Hiển thị 4 ô thống kê
+        let cSSS=0,cSS=0,cAnime=0;
+        PL.forEach(p=>{if(p.sss>0)cSSS++;if(p.ss>0&&p.sss===0)cSS++;if(p.anime>0)cAnime++;});
+        document.getElementById('i4-total').textContent=RL.length.toLocaleString();
+        document.getElementById('i4-sss').textContent=cSSS.toLocaleString();
+        document.getElementById('i4-ss').textContent=cSS.toLocaleString();
+        document.getElementById('i4-anime').textContent=cAnime.toLocaleString();
+        document.getElementById('info4').classList.add('show');
         addLog(`Load file: ${f.name} — ${RL.length.toLocaleString()} dòng (${mb}MB)`,'ok');
         updStat('uploads',1);updStat('totalMb',parseFloat(mb));svUser();
         toast('success',`✅ Đã load: ${RL.length.toLocaleString()} acc`);
@@ -706,13 +774,20 @@ function doPaste(){
   PL=RL.map(parseAcc);
   document.getElementById('input-area').value=RL.join('\n');
   document.getElementById('in-cnt').textContent=RL.length.toLocaleString();
+  let cSSS=0,cSS=0,cAnime=0;
+  PL.forEach(p=>{if(p.sss>0)cSSS++;if(p.ss>0&&p.sss===0)cSS++;if(p.anime>0)cAnime++;});
+  document.getElementById('i4-total').textContent=RL.length.toLocaleString();
+  document.getElementById('i4-sss').textContent=cSSS.toLocaleString();
+  document.getElementById('i4-ss').textContent=cSS.toLocaleString();
+  document.getElementById('i4-anime').textContent=cAnime.toLocaleString();
+  document.getElementById('info4').classList.add('show');
   addLog(`Paste data: ${RL.length.toLocaleString()} dòng`,'ok');
   toast('success',`✅ Đã paste: ${RL.length.toLocaleString()} acc`);
 }
 
-function clearAll(){RL=[];PL=[];FR=[];document.getElementById('input-area').value='';document.getElementById('in-cnt').textContent='0';document.getElementById('res-box').style.display='none';document.getElementById('uplbl').textContent='Kéo thả hoặc nhấn để Load file .TXT';addLog('Reset tất cả','warn')}
+function clearAll(){RL=[];PL=[];FR=[];document.getElementById('input-area').value='';document.getElementById('in-cnt').textContent='0';document.getElementById('res-box').style.display='none';document.getElementById('uplbl').textContent='Kéo thả hoặc nhấn để Load file .TXT';document.getElementById('info4').classList.remove('show');addLog('Reset tất cả','warn')}
 function clearOut(){FR=[];document.getElementById('res-area').value='';document.getElementById('res-box').style.display='none'}
-function resetFilters(){['f-tuong','f-skin-name','f-skin','f-level','f-so','f-qh','f-ss','f-nap','f-sss','f-anime','f-sao'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['f-country','f-fb','f-rank','f-tinhtrang','f-ban','f-email','f-cmnd','f-authen','f-sdt'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['sss-tel','sss-bij','sss-tri','sss-vio'].forEach(id=>{const e=document.getElementById(id);if(e)e.checked=false});toast('info','↺ Đã reset bộ lọc')}
+function resetFilters(){['f-tuong','f-skin-name','f-skin','f-level','f-so','f-qh','f-ss','f-nap','f-sss','f-anime','f-sao'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['f-country','f-fb','f-rank','f-tinhtrang','f-ban','f-email','f-cmnd','f-authen','f-sdt','f-passyear'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=''});['sss-tel','sss-bij','sss-tri','sss-vio'].forEach(id=>{const e=document.getElementById(id);if(e)e.checked=false});toast('info','↺ Đã reset bộ lọc')}
 
 // ═══════════════════════════════════════════════
 // PARSE ACC LINE
@@ -805,6 +880,7 @@ function runFilters(){
   const fCMND=document.getElementById('f-cmnd').value;
   const fAuthen=document.getElementById('f-authen').value;
   const fSDT=document.getElementById('f-sdt').value;
+  const fPassYear=document.getElementById('f-passyear').value;
 
   // SSS rác
   const sssRac=[];
@@ -856,8 +932,22 @@ function runFilters(){
     if(fBan==='ngay'&&(p.ban_type!=='ngay'))return;
     if(fBan==='thang'&&(p.ban_type!=='thang'))return;
     if(fBan==='nam'&&(p.ban_type!=='nam'))return;
-    // Email
-    if(fEmail==='yes'&&!p.email)return;if(fEmail==='no'&&p.email)return;
+    // Email — dùng '@' để detect như source gốc
+    if(fEmail){
+      const em=line.match(/Email\s*:\s*(.+?)(?:\s*\||\s*$)/i);
+      const hasEmail=em?em[1].includes('@'):false;
+      if(fEmail==='yes'&&!hasEmail)return;
+      if(fEmail==='no'&&hasEmail)return;
+    }
+    // Năm đổi password
+    if(fPassYear){
+      const pm=line.match(/Đổi Password Lần Cuối:\s*\d{2}:\d{2}:\d{2}\s*(\d{2}\/\d{2}\/(\d{4}))/);
+      if(!pm)return;
+      const yr=pm[2];const dt=pm[1];
+      if(fPassYear==='1970'){if(dt!=='01/01/1970')return}
+      else if(fPassYear==='2023-2025'){if(!['2023','2024','2025'].includes(yr))return}
+      else{if(yr!==fPassYear)return}
+    }
     // CMND
     if(fCMND==='yes'&&!p.cmnd)return;if(fCMND==='no'&&p.cmnd)return;
     // Authen
@@ -885,6 +975,7 @@ function runFilters(){
   if(fBan)filterDesc.push('Ban:'+fBan);
   if(fFB)filterDesc.push('FB:'+fFB);
   if(fEmail)filterDesc.push('Email:'+fEmail);
+  if(fPassYear)filterDesc.push('Pass năm:'+fPassYear);
   const desc=filterDesc.length?filterDesc.join(' | '):'Không lọc (tất cả)';
 
   const rb=document.getElementById('res-box');rb.style.display='block';
